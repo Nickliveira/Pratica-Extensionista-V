@@ -1,0 +1,88 @@
+// Schema seguindo o modelo fornecido
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabela ASSOCIADO
+model Associado {
+  cpf_associado      BigInt   @id
+  nom_associado      String   @db.VarChar(40)
+  dtn_associado      DateTime @db.Date
+  end_associado      String   @db.VarChar(40)
+  bai_associado      String   @db.VarChar(30)
+  cep_associado      String   @db.VarChar(8)
+  cid_associado      String   @db.VarChar(40)
+  uf_associado       String   @db.Char(2)
+  cel_associado      String   @db.VarChar(15)
+  email_associado    String   @unique @db.VarChar(50)
+  sen_associado      String   @db.VarChar(255)
+  
+  cuponsReservados   CupomAssociado[]
+  
+  @@map("associado")
+}
+
+// Tabela COMERCIO
+model Comercio {
+  cnpj_comercio          BigInt     @id
+  id_categoria           Int
+  categoria              Categoria  @relation(fields: [id_categoria], references: [id_categoria])
+  raz_social_comercio    String     @db.VarChar(50)
+  nom_fantasia_comercio  String     @db.VarChar(30)
+  end_comercio           String     @db.VarChar(40)
+  bai_comercio           String     @db.VarChar(30)
+  cep_comercio           String     @db.VarChar(8)
+  cid_comercio           String     @db.VarChar(40)
+  uf_comercio            String     @db.Char(2)
+  con_comercio           String     @db.VarChar(15)
+  email_comercio         String     @unique @db.VarChar(50)
+  sen_comercio           String     @db.VarChar(255)
+  
+  cupons                 Cupom[]
+  
+  @@map("comercio")
+}
+
+// Tabela CATEGORIA
+model Categoria {
+  id_categoria   Int        @id @default(autoincrement())
+  nom_categoria  String     @db.VarChar(25)
+  
+  comercios      Comercio[]
+  
+  @@map("categoria")
+}
+
+// Tabela CUPOM
+model Cupom {
+  num_cupom           String   @id @db.Char(12)
+  tit_cupom           String   @db.VarChar(25)
+  cnpj_comercio       BigInt
+  comercio            Comercio @relation(fields: [cnpj_comercio], references: [cnpj_comercio], onDelete: Cascade)
+  dta_emissao_cupom   DateTime @default(now()) @db.Date
+  dta_inicio_cupom    DateTime @db.Date
+  dta_termino_cupom   DateTime @db.Date
+  per_desc_cupom      Decimal  @db.Decimal(4, 2)
+  
+  reservas            CupomAssociado[]
+  
+  @@map("cupom")
+}
+
+// Tabela CUPOM_ASSOCIADO
+model CupomAssociado {
+  id_cupom_associado        Int       @id @default(autoincrement())
+  num_cupom                 String    @db.Char(12)
+  cupom                     Cupom     @relation(fields: [num_cupom], references: [num_cupom], onDelete: Cascade)
+  cpf_associado             BigInt
+  associado                 Associado @relation(fields: [cpf_associado], references: [cpf_associado], onDelete: Cascade)
+  dta_cupom_associado       DateTime  @default(now()) @db.Date
+  dta_uso_cupom_associado   DateTime? @db.Date
+  
+  @@map("cupom_associado")
+}
