@@ -32,11 +32,28 @@ export async function POST(request: NextRequest) {
 
     // Valida dados com base no tipo
     if (tipo === 'ASSOCIADO') {
-      const dadosValidados = associadoSchema.parse({
+      // Valida com Zod
+      const validacao = associadoSchema.safeParse({
         ...body,
         cpf: documentoLimpo,
-        cep: body.cep?.replace(/\D/g, '')
+        cep: body.cep?.replace(/\D/g, ''),
+        celular: body.celular?.replace(/\D/g, '')
       })
+
+      if (!validacao.success) {
+        return NextResponse.json(
+          { 
+            error: 'Dados inválidos', 
+            details: validacao.error.errors.map(e => ({
+              field: e.path.join('.'),
+              message: e.message
+            }))
+          },
+          { status: 400 }
+        )
+      }
+
+      const dadosValidados = validacao.data
 
       // Verifica se CPF já existe
       const cpfExiste = await prisma.associado.findUnique({
@@ -95,12 +112,29 @@ export async function POST(request: NextRequest) {
         { status: 201 }
       )
     } else {
-      const dadosValidados = comercioSchema.parse({
+      // Valida com Zod
+      const validacao = comercioSchema.safeParse({
         ...body,
         cnpj: documentoLimpo,
         cep: body.cep?.replace(/\D/g, ''),
+        contato: body.contato?.replace(/\D/g, ''),
         idCategoria: parseInt(body.idCategoria)
       })
+
+      if (!validacao.success) {
+        return NextResponse.json(
+          { 
+            error: 'Dados inválidos', 
+            details: validacao.error.errors.map(e => ({
+              field: e.path.join('.'),
+              message: e.message
+            }))
+          },
+          { status: 400 }
+        )
+      }
+
+      const dadosValidados = validacao.data
 
       // Verifica se CNPJ já existe
       const cnpjExiste = await prisma.comercio.findUnique({
