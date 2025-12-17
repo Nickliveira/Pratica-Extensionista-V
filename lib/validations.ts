@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { obterDataHoje } from './utils'
 
 // Validação de CPF
 export function validarCPF(cpf: string): boolean {
@@ -106,14 +105,11 @@ export const comercioSchema = z.object({
 // Schema de Cupom
 export const cupomSchema = z.object({
   titulo: z.string().min(3, 'Título deve ter no mínimo 3 caracteres').max(25),
-  dataInicio: z.string().refine((date) => {
-    // Compara strings de data diretamente no fuso horário local
-    return date >= obterDataHoje()
-  }, 'Data de início deve ser hoje ou futura'),
-  dataTermino: z.string(),
+  dataInicio: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de início inválida'),
+  dataTermino: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de término inválida'),
   percentualDesconto: z.number().min(0.01, 'Desconto mínimo de 0.01%').max(99.99, 'Desconto máximo de 99.99%')
 }).refine((data) => {
-  // Compara strings de data diretamente
+  // Apenas valida que data término é posterior à data início
   return data.dataTermino > data.dataInicio
 }, {
   message: 'Data término deve ser posterior à data início',
