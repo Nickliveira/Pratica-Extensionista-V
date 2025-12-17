@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+// Força rota dinâmica (não estática)
+export const dynamic = 'force-dynamic'
+
 // Listar todas as categorias
 export async function GET(request: NextRequest) {
   try {

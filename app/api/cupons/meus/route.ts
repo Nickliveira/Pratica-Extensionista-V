@@ -3,6 +3,9 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
+// Força rota dinâmica (não estática)
+export const dynamic = 'force-dynamic'
+
 // Listar cupons do associado
 export async function GET(request: NextRequest) {
   try {

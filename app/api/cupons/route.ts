@@ -6,6 +6,9 @@ import { cupomSchema } from '@/lib/validations'
 import { gerarNumeroCupom, parseDataLocal } from '@/lib/utils'
 import { Decimal } from '@prisma/client/runtime/library'
 
+// Força rota dinâmica (não estática)
+export const dynamic = 'force-dynamic'
+
 // Criar cupom (comerciante)
 export async function POST(request: NextRequest) {
   try {

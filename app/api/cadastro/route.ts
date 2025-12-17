@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { associadoSchema, comercioSchema } from '@/lib/validations'
 
+// Força rota dinâmica (não estática)
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
