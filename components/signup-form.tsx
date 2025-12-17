@@ -107,6 +107,14 @@ export function SignupForm({
       const data = await response.json()
 
       if (!response.ok) {
+        console.error('Erro do servidor:', data)
+        
+        // Se há detalhes de validação, mostra todos
+        if (data.details && Array.isArray(data.details)) {
+          const mensagens = data.details.map((d: any) => `${d.field}: ${d.message}`).join('\n')
+          throw new Error(`Dados inválidos:\n${mensagens}`)
+        }
+        
         throw new Error(data.error || 'Erro ao cadastrar')
       }
 
@@ -115,6 +123,7 @@ export function SignupForm({
         router.push('/login')
       }, 2000)
     } catch (error: any) {
+      console.error('Erro no cadastro:', error)
       setError(error.message)
       setLoading(false)
     }
