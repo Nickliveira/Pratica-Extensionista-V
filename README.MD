@@ -1,4 +1,6 @@
-# Sistema de Cupons de Desconto - por Nicolas Oliveira.
+# Sistema de Cupons de Desconto - por Nicolas Oliveira
+
+Sistema web para gestão de cupons de desconto entre estabelecimentos comerciais e associados.
 
 ## Tecnologias Utilizadas
 
