@@ -1,3 +1,4 @@
+// Nicolas Oliveira - RA 838094
 // Tipos das entidades do banco de dados
 
 export type Associado = {

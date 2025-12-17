@@ -1,3 +1,4 @@
+// Nicolas Oliveira - RA 838094
 import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {

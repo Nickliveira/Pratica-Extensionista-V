@@ -1,3 +1,4 @@
+// Nicolas Oliveira - RA 838094
 import NextAuth from 'next-auth'
 import { authOptions } from '@/lib/auth'
 

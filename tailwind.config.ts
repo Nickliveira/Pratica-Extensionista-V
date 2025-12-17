@@ -1,3 +1,4 @@
+// Nicolas Oliveira - RA 838094
 import type { Config } from "tailwindcss";
 
 const config: Config = {
