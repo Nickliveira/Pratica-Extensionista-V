@@ -29,13 +29,3 @@ Sistema web para gestão de cupons de desconto entre estabelecimentos comerciais
 - **Git** - Controle de versão
 
 ---
-
-## 🧪 Usuários de Teste
-
-### Associado
-- **CPF:** `123.456.789-09` (ou `12345678909`)
-- **Senha:** `123456`
-  
-### Estabelecimento Comercial
-- **CNPJ:** `59.329.455/0001-06` (ou `59329455000106`)
-- **Senha:** `123456`
